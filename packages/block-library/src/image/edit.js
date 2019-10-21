@@ -604,6 +604,10 @@ export class ImageEdit extends Component {
 		const isExternal = isExternalImage( id, url );
 		const controls = (
 			<BlockControls>
+				<BlockAlignmentToolbar
+					value={ align }
+					onChange={ this.updateAlignment }
+				/>
 				{ url && <MediaFlow
 					mediaUpload
 					mediaURL={ url }
@@ -612,10 +616,6 @@ export class ImageEdit extends Component {
 					onSelectURL={ this.onSelectURL }
 					noticeOperations
 				/> }
-				<BlockAlignmentToolbar
-					value={ align }
-					onChange={ this.updateAlignment }
-				/>
 				{ url && (
 					<Toolbar>
 						<ImageURLInputUI

@@ -7,6 +7,7 @@ import { withSelect } from '@wordpress/data';
  * Internal dependencies
  */
 import BlockSwitcher from '../block-switcher';
+import BlockMobileToolbar from '../block-mobile-toolbar';
 import MultiBlocksSwitcher from '../block-switcher/multi-blocks-switcher';
 import BlockControls from '../block-controls';
 import BlockFormatControls from '../block-format-controls';
@@ -30,6 +31,7 @@ function BlockToolbar( { blockClientIds, isValid, mode } ) {
 		<div className="editor-block-toolbar block-editor-block-toolbar">
 			{ mode === 'visual' && isValid && (
 				<>
+					{ blockClientIds.length === 1 && <BlockMobileToolbar clientId={ blockClientIds[ 0 ] } /> }
 					<BlockSwitcher clientIds={ blockClientIds } />
 					<BlockControls.Slot bubblesVirtually className="block-editor-block-toolbar__slot" />
 					<BlockFormatControls.Slot bubblesVirtually className="block-editor-block-toolbar__slot" />

@@ -3,51 +3,59 @@
  */
 import { __ } from '@wordpress/i18n';
 import { compose, withInstanceId } from '@wordpress/compose';
-import {
-	InspectorControls,
-	PanelColorSettings,
-	withColors,
-} from '@wordpress/block-editor';
+import { PanelBody } from '@wordpress/components';
+import { InspectorControls, withColorContext } from '@wordpress/block-editor';
+import { config } from '@wordpress/bravas';
 
 /**
  * Internal dependencies
  */
+import ColorControl from './components/color-control';
 import Markup from './components/markup';
 
-function GlobalColorEdit( {
-	attributes,
-	backgroundColor,
-	setBackgroundColor,
-	className,
-} ) {
-	const {
-		title,
-	} = attributes;
+function GlobalColorEdit( { attributes, className, colors, setAttributes } ) {
+	const { title } = attributes;
 
-	const handleOnSetBackground = ( newBackground ) => {
-		setBackgroundColor( newBackground );
+	const setColorAttribute = ( { color, slug } ) => {
+		const nextColors = colors.map( ( item ) => {
+			if ( item.slug !== slug ) {
+				return item;
+			}
+			return {
+				...item,
+				color,
+			};
+		} );
+		setAttributes( { colors: nextColors } );
+	};
+
+	const handleOnUpdateColor = ( { color, slug } ) => {
+		configSet( `color.${ slug }`, color );
+		setColorAttribute( { color, slug } );
 	};
 
 	return (
 		<div className={ className } title={ title }>
-			<Markup { ...{ color: backgroundColor.color } } />
+			<Markup { ...{ color: colors[ 0 ].color } } />
 			<InspectorControls>
-				<PanelColorSettings
-					title={ __( 'Color Palette' ) }
-					colorSettings={ [
-						{
-							value: backgroundColor.color,
-							onChange: handleOnSetBackground,
-							label: __( 'Color' ),
-						},
-					] }
-				/>
+				<PanelBody title={ __( 'Color Palette' ) }>
+					{ colors.map( ( color, index ) => (
+						<ColorControl
+							{ ...color }
+							onUpdateColor={ handleOnUpdateColor }
+							key={ index }
+						/>
+					) ) }
+				</PanelBody>
 			</InspectorControls>
 		</div>
 	);
 }
 
-export default compose( [
-	withInstanceId,
-	withColors( 'backgroundColor', { textColor: 'color' } ),
-] )( GlobalColorEdit );
+function configSet( props, value ) {
+	if ( value !== undefined ) {
+		config.set( props, value );
+	}
+}
+
+export default compose( [ withInstanceId, withColorContext ] )( GlobalColorEdit );

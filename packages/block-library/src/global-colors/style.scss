@@ -29,3 +29,25 @@
 		}
 	}
 }
+
+.wp-global-colors-color-control {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 8px;
+
+	& > * {
+		&:last-of-type {
+			flex: 1;
+		}
+	}
+
+	&:last-of-type {
+		margin-bottom: 0;
+	}
+}
+
+.wp-global-colors-swatch {
+	border-radius: 8px;
+	width: 40px;
+	height: 40px;
+}

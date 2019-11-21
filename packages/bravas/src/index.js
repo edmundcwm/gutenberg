@@ -6,6 +6,13 @@ import { generateFontSizes } from './utils';
 export * from './utils';
 
 const defaultConfig = {
+	color: {
+		accent: '#cd2653',
+		primary: '#000000',
+		secondary: '#6d6d6d',
+		subtleBackground: '#dcd7ca',
+		background: '#f5efe0',
+	},
 	typography: {
 		fontFamilyBase:
 			'NonBreakingSpaceOverride, "Hoefler Text", Garamond, "Times New Roman", serif',

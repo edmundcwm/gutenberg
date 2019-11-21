@@ -11,6 +11,9 @@
 		"fontSizeBase": {
 			"type": "string"
 		},
+		"fontSizeH1": {
+			"type": "string"
+		},
 		"typeScale": {
 			"type": "string"
 		},

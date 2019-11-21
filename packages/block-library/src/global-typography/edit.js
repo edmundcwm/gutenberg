@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { isUndefined } from 'lodash';
+import { isUndefined, omit } from 'lodash';
 
 /**
  * WordPress dependencies
@@ -18,14 +18,14 @@ import Markup from './components/markup';
 import { generateFontSizes } from './utils';
 
 function GlobalTypographyEdit( { attributes, setAttributes, className } ) {
-	const {
-		fontFamilyBase,
-		fontFamilyHeading,
-		fontSizeBase,
-		lineHeightBase,
-		lineHeightHeading,
-		typeScale,
-	} = attributes;
+	const otherAttributes = omit( attributes, [ 'align' ] );
+	const { fontSizeH1 } = attributes;
+
+	const fontSizes = {
+		H1: fontSizeH1,
+	};
+
+	const innerProps = { ...otherAttributes, fontSizes };
 
 	const updateAttribute = ( prop, value ) => {
 		configSet( `typography.${ prop }`, value );
@@ -34,27 +34,11 @@ function GlobalTypographyEdit( { attributes, setAttributes, className } ) {
 
 	return (
 		<div className={ className }>
-			<Markup
-				{ ...{
-					fontFamilyBase,
-					fontFamilyHeading,
-					fontSizeBase,
-					lineHeightBase,
-					lineHeightHeading,
-					typeScale,
-				} }
-			/>
+			<Markup { ...innerProps } />
 			<InspectorControls>
 				<FontSizePanel
-					{ ...{
-						fontFamilyBase,
-						fontFamilyHeading,
-						fontSizeBase,
-						lineHeightBase,
-						lineHeightHeading,
-						typeScale,
-						updateAttribute,
-					} }
+					{ ...otherAttributes }
+					updateAttribute={ updateAttribute }
 				/>
 			</InspectorControls>
 		</div>

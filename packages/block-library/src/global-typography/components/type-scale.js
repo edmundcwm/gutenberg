@@ -15,54 +15,62 @@ function TypeScaleItem( { children, fontSize = 16, lineHeight = 1.25 } ) {
 }
 
 export default function TypeScale( {
+	fontSizes,
 	fontSizeBase,
 	lineHeightBase,
 	lineHeightHeading,
 	typeScale,
 } ) {
-	const fontSizes = generateFontSizes( fontSizeBase, typeScale );
+	const sizes = generateFontSizes( fontSizeBase, typeScale, fontSizes );
 
 	return (
 		<div className="wp-block-global-typography__type-scale">
 			<ul className="wp-block-global-typography__type-scale-list">
 				<TypeScaleItem
-					fontSize={ fontSizes.h1 }
+					fontSizeLabel="H1"
+					fontSize={ sizes.H1 }
 					lineHeight={ lineHeightHeading }
 				>
 					<h1>Heading One</h1>
 				</TypeScaleItem>
 				<TypeScaleItem
-					fontSize={ fontSizes.h2 }
+					fontSizeLabel="H2"
+					fontSize={ sizes.H2 }
 					lineHeight={ lineHeightHeading }
 				>
 					<h2>Heading Two</h2>
 				</TypeScaleItem>
 				<TypeScaleItem
-					fontSize={ fontSizes.h3 }
+					fontSizeLabel="H3"
+					fontSize={ sizes.H3 }
 					lineHeight={ lineHeightHeading }
 				>
 					<h3>Heading Three</h3>
 				</TypeScaleItem>
 				<TypeScaleItem
-					fontSize={ fontSizes.h4 }
+					fontSizeLabel="H4"
+					fontSize={ sizes.H4 }
 					lineHeight={ lineHeightHeading }
 				>
 					<h4>Heading Four</h4>
 				</TypeScaleItem>
 				<TypeScaleItem
-					fontSize={ fontSizes.h5 }
+					fontSizeLabel="H5"
+					fontSize={ sizes.H5 }
 					lineHeight={ lineHeightHeading }
 				>
 					<h5>Heading Five</h5>
 				</TypeScaleItem>
 				<TypeScaleItem
-					fontSize={ fontSizes.h6 }
+					fontSizeLabel="H6"
+					fontSize={ sizes.H6 }
 					lineHeight={ lineHeightHeading }
 				>
 					<h6>Heading Six</h6>
 				</TypeScaleItem>
 				<TypeScaleItem
-					fontSize={ fontSizes.body }
+					fontSizeLabel="Body"
+					fontSize={ sizes.Body }
 					lineHeight={ lineHeightBase }
 				>
 					<p>Body</p>

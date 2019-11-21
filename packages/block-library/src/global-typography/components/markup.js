@@ -9,6 +9,7 @@ export default function GlobalTypographyMarkup( {
 	fontFamilyBase,
 	fontFamilyHeading,
 	fontSizeBase,
+	fontSizes,
 	typeScale,
 	lineHeightBase,
 	lineHeightHeading,
@@ -19,6 +20,7 @@ export default function GlobalTypographyMarkup( {
 				<TypeScale
 					{ ...{
 						fontSizeBase,
+						fontSizes,
 						lineHeightBase,
 						lineHeightHeading,
 						typeScale,

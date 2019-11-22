@@ -132,38 +132,38 @@ const MediaReplaceFlow = (
 	}
 
 	return (
-		<MediaUploadCheck>
-			<MediaUpload
-				onSelect={ ( media ) => selectMedia( media ) }
-				onClose={ () => setShowMediaReplaceOptions( true ) }
-				allowedTypes={ allowedTypes }
-				render={ ( { open } ) => (
-					<Toolbar className={ 'media-replace-flow components-dropdown-menu' }>
-						<Button
-							ref={ editMediaButtonRef }
-							className={ 'components-icon-button components-dropdown-menu__toggle' }
-							onClick={ () => {
-								setShowMediaReplaceOptions( ! showMediaReplaceOptions );
-							} }
-							onKeyDown={ openOnArrowDown }
+		<MediaUpload
+			onSelect={ ( media ) => selectMedia( media ) }
+			onClose={ () => setShowMediaReplaceOptions( true ) }
+			allowedTypes={ allowedTypes }
+			render={ ( { open } ) => (
+				<Toolbar className={ 'media-replace-flow components-dropdown-menu' }>
+					<Button
+						ref={ editMediaButtonRef }
+						className={ 'components-icon-button components-dropdown-menu__toggle' }
+						onClick={ () => {
+							setShowMediaReplaceOptions( ! showMediaReplaceOptions );
+						} }
+						onKeyDown={ openOnArrowDown }
+					>
+						<span className="components-dropdown-menu__label" > { name } </span>
+						<span className="components-dropdown-menu__indicator" />
+					</Button>
+					{ showMediaReplaceOptions &&
+						<Popover
+							onClickOutside={ onClickOutside }
+							onClose={ onClose }
+							className={ 'media-replace-flow__options' }
 						>
-							<span className="components-dropdown-menu__label" > { name } </span>
-							<span className="components-dropdown-menu__indicator" />
-						</Button>
-						{ showMediaReplaceOptions &&
-							<Popover
-								onClickOutside={ onClickOutside }
-								onClose={ onClose }
-								className={ 'media-replace-flow__options' }
-							>
-								<>
-									<NavigableMenu>
-										<MenuItem
-											icon="admin-media"
-											onClick={ open }
-										>
-											{ __( 'Open Media Library' ) }
-										</MenuItem>
+							<>
+								<NavigableMenu>
+									<MenuItem
+										icon="admin-media"
+										onClick={ open }
+									>
+										{ __( 'Open Media Library' ) }
+									</MenuItem>
+									<MediaUploadCheck>
 										<FormFileUpload
 											onChange={ uploadFiles }
 											accept={ allowedTypes }
@@ -181,24 +181,24 @@ const MediaReplaceFlow = (
 												);
 											} }
 										/>
-										<MenuItem
-											icon="admin-links"
-											onClick={ () => ( setShowURLInput( ! showURLInput ) ) }
-											aria-expanded={ showURLInput }
-										>
-											<div> { __( 'Insert from URL' ) } </div>
-										</MenuItem>
-									</NavigableMenu>
-									{ showURLInput && <div className="block-editor-media-flow__url-input">
-										{ urlInputUIContent }
-									</div> }
-								</>
-							</Popover>
-						}
-					</Toolbar>
-				) }
-			/>
-		</MediaUploadCheck>
+									</MediaUploadCheck>
+									<MenuItem
+										icon="admin-links"
+										onClick={ () => ( setShowURLInput( ! showURLInput ) ) }
+										aria-expanded={ showURLInput }
+									>
+										<div> { __( 'Insert from URL' ) } </div>
+									</MenuItem>
+								</NavigableMenu>
+								{ showURLInput && <div className="block-editor-media-flow__url-input">
+									{ urlInputUIContent }
+								</div> }
+							</>
+						</Popover>
+					}
+				</Toolbar>
+			) }
+		/>
 	);
 };
 

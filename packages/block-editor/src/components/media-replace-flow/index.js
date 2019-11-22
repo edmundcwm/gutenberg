@@ -40,7 +40,6 @@ const MediaReplaceFlow = (
 		onSelectURL,
 		onError,
 		name = __( 'Replace' ),
-		multiple = false,
 	}
 ) => {
 	const [ showURLInput, setShowURLInput ] = useState( false );
@@ -71,15 +70,10 @@ const MediaReplaceFlow = (
 
 	const uploadFiles = ( event ) => {
 		const files = event.target.files;
-		let setMedia;
-		if ( multiple ) {
-			setMedia = selectMedia;
-		} else {
-			setMedia = ( [ media ] ) => {
-				setShowMediaReplaceOptions( false );
-				selectMedia( media );
-			};
-		}
+		const setMedia = ( [ media ] ) => {
+			setShowMediaReplaceOptions( false );
+			selectMedia( media );
+		};
 		mediaUpload( {
 			allowedTypes,
 			filesList: files,
@@ -167,7 +161,6 @@ const MediaReplaceFlow = (
 										<FormFileUpload
 											onChange={ uploadFiles }
 											accept={ allowedTypes }
-											multiple={ multiple }
 											render={ ( { openFileDialog } ) => {
 												return (
 													<MenuItem

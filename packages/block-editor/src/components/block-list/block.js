@@ -247,6 +247,14 @@ function BlockListBlock( {
 		placeCaretAtHorizontalEdge( target, isReverse );
 	};
 
+	useEffect( () => {
+		wrapper.current.addEventListener( 'dragstart', preventDrag );
+
+		return () => {
+			wrapper.current.removeEventListener( 'dragstart', preventDrag );
+		};
+	} );
+
 	// Focus the selected block's wrapper or inner input on mount and update
 	const isMounting = useRef( true );
 	useEffect( () => {
@@ -532,7 +540,6 @@ function BlockListBlock( {
 			onMouseLeave={ onMouseLeave }
 			onMouseDown={ onMouseDown }
 			onMouseUp={ onMouseUp }
-			onDragStart={ preventDrag }
 			className={ wrapperClassName }
 			data-type={ name }
 			data-block={ clientId }
@@ -542,7 +549,6 @@ function BlockListBlock( {
 			onKeyDown={ onKeyDown }
 			tabIndex="0"
 			aria-label={ blockLabel }
-			childHandledEvents={ [ 'onDragStart', 'onMouseDown' ] }
 			tagName={ animated.div }
 			{ ...wrapperProps }
 			style={

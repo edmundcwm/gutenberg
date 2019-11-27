@@ -442,6 +442,10 @@ const Popover = ( {
 					content = <Fill name={ SLOT_NAME }>{ content }</Fill>;
 				}
 
+				if ( anchorRef ) {
+					return content;
+				}
+
 				return (
 					<span ref={ anchorRefFallback }>
 						{ content }

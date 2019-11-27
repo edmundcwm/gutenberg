@@ -22,7 +22,7 @@ import {
 	isUnmodifiedDefaultBlock,
 	getUnregisteredTypeHandlerName,
 } from '@wordpress/blocks';
-import { KeyboardShortcuts, withFilters } from '@wordpress/components';
+import { KeyboardShortcuts, withFilters, Popover } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import {
 	withDispatch,
@@ -109,9 +109,6 @@ function BlockListBlock( {
 
 	// Reference of the wrapper
 	const wrapper = useRef( null );
-
-	// Reference to the block edit node
-	const blockNodeRef = useRef();
 
 	const breadcrumb = useRef();
 
@@ -210,8 +207,8 @@ function BlockListBlock( {
 			const { startContainer, endContainer } = selection.getRangeAt( 0 );
 
 			if (
-				! blockNodeRef.current.contains( startContainer ) ||
-				! blockNodeRef.current.contains( endContainer )
+				! wrapper.current.contains( startContainer ) ||
+				! wrapper.current.contains( endContainer )
 			) {
 				selection.removeAllRanges();
 			}
@@ -232,10 +229,10 @@ function BlockListBlock( {
 
 		// Find all tabbables within node.
 		const textInputs = focus.tabbable
-			.find( blockNodeRef.current )
+			.find( wrapper.current )
 			.filter( isTextField )
 			// Exclude inner blocks
-			.filter( ( node ) => ! ignoreInnerBlocks || isInsideRootBlock( blockNodeRef.current, node ) );
+			.filter( ( node ) => ! ignoreInnerBlocks || isInsideRootBlock( wrapper.current, node ) );
 
 		// If reversed (e.g. merge via backspace), use the last in the set of
 		// tabbables.
@@ -360,7 +357,7 @@ function BlockListBlock( {
 		if (
 			isNavigationMode &&
 			isSelected &&
-			isInsideRootBlock( blockNodeRef.current, event.target )
+			isInsideRootBlock( wrapper.current, event.target )
 		) {
 			setNavigationMode( false );
 		}
@@ -373,7 +370,7 @@ function BlockListBlock( {
 
 		// Avoid triggering multi-selection if we click toolbars/inspectors
 		// and all elements that are outside the Block Edit DOM tree.
-		} else if ( blockNodeRef.current.contains( event.target ) ) {
+		} else if ( wrapper.current.contains( event.target ) ) {
 			isPointerDown.current = true;
 
 			// Allow user to escape out of a multi-selection to a singular
@@ -532,9 +529,13 @@ function BlockListBlock( {
 			ref={ wrapper }
 			onMouseOver={ maybeHover }
 			onMouseOverHandled={ hideHoverEffects }
-			onMouseLeave={ hideHoverEffects }
+			onMouseLeave={ onMouseLeave }
+			onMouseDown={ onMouseDown }
+			onMouseUp={ onMouseUp }
+			onDragStart={ preventDrag }
 			className={ wrapperClassName }
 			data-type={ name }
+			data-block={ clientId }
 			onTouchStart={ onTouchStart }
 			onFocus={ onFocus }
 			onClick={ onTouchStop }
@@ -563,77 +564,80 @@ function BlockListBlock( {
 				clientId={ clientId }
 				rootClientId={ rootClientId }
 			/> }
-			<div
-				className={ classnames(
-					'editor-block-list__block-edit block-editor-block-list__block-edit',
-					{ 'has-mover-inside': moverDirection === 'horizontal' },
-				) }
-			>
-				{ isFirstMultiSelected && (
-					<BlockMultiControls
-						rootClientId={ rootClientId }
-						moverDirection={ moverDirection }
-					/>
-				) }
-				{ shouldRenderMovers && ( moverDirection === 'vertical' ) && blockMover }
-				{ shouldShowBreadcrumb && (
-					<BlockBreadcrumb
-						clientId={ clientId }
-						ref={ breadcrumb }
-					/>
-				) }
-				{ ( shouldShowContextualToolbar || isForcingContextualToolbar.current ) && (
+			{ isFirstMultiSelected && (
+				<BlockMultiControls
+					rootClientId={ rootClientId }
+					moverDirection={ moverDirection }
+				/>
+			) }
+			{ shouldRenderMovers && (
+				<Popover
+					noArrow
+					position="middle left"
+					anchorHorizontalBuffer={ 24 }
+					focusOnMount={ false }
+					anchorRef={ wrapper.current }
+					className="block-editor-block-list__block__popover"
+				>
+					{ blockMover }
+				</Popover>
+			) }
+			{ shouldShowBreadcrumb && (
+				<BlockBreadcrumb
+					clientId={ clientId }
+					ref={ breadcrumb }
+				/>
+			) }
+			{ ( shouldShowContextualToolbar || isForcingContextualToolbar.current ) && (
+				<Popover
+					noArrow
+					position="top left"
+					focusOnMount={ false }
+					anchorRef={ wrapper.current }
+					anchorVerticalBuffer={ 14 }
+					className="block-editor-block-list__block__popover"
+				>
 					<BlockContextualToolbar
 						// If the toolbar is being shown because of being forced
 						// it should focus the toolbar right after the mount.
 						focusOnMount={ isForcingContextualToolbar.current }
 					/>
+				</Popover>
+			) }
+			{
+				! isNavigationMode &&
+				! shouldShowContextualToolbar &&
+				isSelected &&
+				! hasFixedToolbar &&
+				! isEmptyDefaultBlock && (
+					<KeyboardShortcuts
+						bindGlobal
+						eventName="keydown"
+						shortcuts={ {
+							'alt+f10': forceFocusedContextualToolbar,
+						} }
+					/>
+				)
+			}
+			<BlockCrashBoundary onError={ onBlockError }>
+				{ isValid && blockEdit }
+				{ isValid && mode === 'html' && (
+					<BlockHtml clientId={ clientId } />
 				) }
-				{
-					! isNavigationMode &&
-					! shouldShowContextualToolbar &&
-					isSelected &&
-					! hasFixedToolbar &&
-					! isEmptyDefaultBlock && (
-						<KeyboardShortcuts
-							bindGlobal
-							eventName="keydown"
-							shortcuts={ {
-								'alt+f10': forceFocusedContextualToolbar,
-							} }
-						/>
-					)
-				}
-				<IgnoreNestedEvents
-					ref={ blockNodeRef }
-					onDragStart={ preventDrag }
-					onMouseDown={ onMouseDown }
-					onMouseUp={ onMouseUp }
-					onMouseLeave={ onMouseLeave }
-					data-block={ clientId }
-				>
-					<BlockCrashBoundary onError={ onBlockError }>
-						{ isValid && blockEdit }
-						{ isValid && mode === 'html' && (
-							<BlockHtml clientId={ clientId } />
-						) }
-						{ shouldRenderMovers && ( moverDirection === 'horizontal' ) && blockMover }
-						{ ! isValid && [
-							<BlockInvalidWarning
-								key="invalid-warning"
-								clientId={ clientId }
-							/>,
-							<div key="invalid-preview">
-								{ getSaveElement( blockType, attributes ) }
-							</div>,
-						] }
-					</BlockCrashBoundary>
-					{ !! hasError && <BlockCrashWarning /> }
-					{ shouldShowMobileToolbar && (
-						<BlockMobileToolbar clientId={ clientId } moverDirection={ moverDirection } />
-					) }
-				</IgnoreNestedEvents>
-			</div>
+				{ ! isValid && [
+					<BlockInvalidWarning
+						key="invalid-warning"
+						clientId={ clientId }
+					/>,
+					<div key="invalid-preview">
+						{ getSaveElement( blockType, attributes ) }
+					</div>,
+				] }
+			</BlockCrashBoundary>
+			{ !! hasError && <BlockCrashWarning /> }
+			{ shouldShowMobileToolbar && (
+				<BlockMobileToolbar clientId={ clientId } moverDirection={ moverDirection } />
+			) }
 			{ showInserterShortcuts && (
 				<div className="editor-block-list__side-inserter block-editor-block-list__side-inserter">
 					<InserterWithShortcuts

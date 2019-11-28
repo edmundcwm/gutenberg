@@ -656,7 +656,6 @@ const applyWithSelect = withSelect(
 			initialPosition: isSelected ? getSelectedBlocksInitialCaretPosition() : null,
 			isEmptyDefaultBlock:
 				name && isUnmodifiedDefaultBlock( { name, attributes } ),
-			isMovable: 'all' !== templateLock,
 			isLocked: !! templateLock,
 			isFocusMode: focusMode && isLargeViewport,
 			hasFixedToolbar: hasFixedToolbar && isLargeViewport,

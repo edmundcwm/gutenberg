@@ -31,7 +31,6 @@
 .has-drop-cap:not(:focus)::after {
 	content: "";
 	display: table;
-	clear: both;
 	padding-top: $block-padding;
 }
 

@@ -561,10 +561,18 @@ function BlockListBlock( {
 			}
 		>
 			{ shouldShowInsertionPoint && (
-				<BlockInsertionPoint
-					clientId={ clientId }
-					rootClientId={ rootClientId }
-				/>
+				<Popover
+					noArrow
+					forcePosition
+					focusOnMount={ false }
+					anchorRef={ wrapper.current }
+					className="block-editor-block-list__block__popover"
+				>
+					<BlockInsertionPoint
+						clientId={ clientId }
+						rootClientId={ rootClientId }
+					/>
+				</Popover>
 			) }
 			{ shouldRenderDropzone && <BlockDropZone
 				clientId={ clientId }
@@ -655,23 +663,37 @@ function BlockListBlock( {
 				<BlockMobileToolbar clientId={ clientId } moverDirection={ moverDirection } />
 			) }
 			{ showInserterShortcuts && (
-				<div className="editor-block-list__side-inserter block-editor-block-list__side-inserter">
+				<Popover
+					noArrow
+					position="middle right"
+					forcePosition
+					focusOnMount={ false }
+					anchorRef={ wrapper.current }
+					className="block-editor-block-list__block__popover block-editor-block-list__block__popover-with-shortcuts"
+				>
 					<InserterWithShortcuts
 						clientId={ clientId }
 						rootClientId={ rootClientId }
 						onToggle={ selectOnOpen }
 					/>
-				</div>
+				</Popover>
 			) }
 			{ showEmptyBlockSideInserter && (
-				<div className="editor-block-list__empty-block-inserter block-editor-block-list__empty-block-inserter">
+				<Popover
+					noArrow
+					position="middle left"
+					forcePosition
+					focusOnMount={ false }
+					anchorRef={ wrapper.current }
+					className="block-editor-block-list__block__popover"
+				>
 					<Inserter
 						position="top right"
 						onToggle={ selectOnOpen }
 						rootClientId={ rootClientId }
 						clientId={ clientId }
 					/>
-				</div>
+				</Popover>
 			) }
 		</IgnoreNestedEvents>
 	);

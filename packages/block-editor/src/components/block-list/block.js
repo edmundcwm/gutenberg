@@ -660,7 +660,16 @@ function BlockListBlock( {
 			</BlockCrashBoundary>
 			{ !! hasError && <BlockCrashWarning /> }
 			{ shouldShowMobileToolbar && (
-				<BlockMobileToolbar clientId={ clientId } moverDirection={ moverDirection } />
+				<Popover
+					noArrow
+					position="bottom right left"
+					forcePosition
+					focusOnMount={ false }
+					anchorRef={ wrapper.current }
+					className="block-editor-block-list__block__popover"
+				>
+					<BlockMobileToolbar clientId={ clientId } moverDirection={ moverDirection } />
+				</Popover>
 			) }
 			{ showInserterShortcuts && (
 				<Popover

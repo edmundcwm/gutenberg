@@ -192,7 +192,7 @@ function BlockList( {
 	// Only clean up when unmounting, these are added and cleaned up elsewhere.
 	useEffect( () => () => {
 		window.removeEventListener( 'mouseup', onSelectionEnd );
-		window.cancelAnimationFrame( rafId );
+		window.cancelAnimationFrame( rafId.current );
 	}, [] );
 
 	/**

@@ -579,7 +579,7 @@ function BlockListBlock( {
 			{ shouldRenderMovers && (
 				<Popover
 					noArrow
-					position="middle left"
+					position="middle left top"
 					forcePosition
 					anchorHorizontalBuffer={ 24 }
 					focusOnMount={ false }
@@ -598,11 +598,10 @@ function BlockListBlock( {
 			{ ( shouldShowContextualToolbar || isForcingContextualToolbar.current ) && (
 				<Popover
 					noArrow
-					position="top left"
+					position="top right left"
 					forcePosition
 					focusOnMount={ false }
 					anchorRef={ wrapper.current }
-					anchorVerticalBuffer={ 14 }
 					className="block-editor-block-list__block__popover"
 				>
 					<BlockContextualToolbar

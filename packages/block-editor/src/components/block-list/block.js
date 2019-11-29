@@ -570,13 +570,7 @@ function BlockListBlock( {
 				clientId={ clientId }
 				rootClientId={ rootClientId }
 			/> }
-			{ isFirstMultiSelected && (
-				<BlockMultiControls
-					rootClientId={ rootClientId }
-					moverDirection={ moverDirection }
-				/>
-			) }
-			{ shouldRenderMovers && (
+			{ ( isFirstMultiSelected || shouldRenderMovers ) && (
 				<Popover
 					noArrow
 					position="middle left top"
@@ -586,7 +580,13 @@ function BlockListBlock( {
 					anchorRef={ wrapper.current }
 					className="block-editor-block-list__block__popover"
 				>
-					{ blockMover }
+					{ isFirstMultiSelected && (
+						<BlockMultiControls
+							rootClientId={ rootClientId }
+							moverDirection={ moverDirection }
+						/>
+					) }
+					{ shouldRenderMovers && blockMover }
 				</Popover>
 			) }
 			{ shouldShowBreadcrumb && (

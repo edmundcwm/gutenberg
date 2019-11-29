@@ -62,7 +62,7 @@ function FontSizePicker( {
 		onChange( selectedItem.style && selectedItem.style.fontSize );
 	};
 
-	const items = getSelectOptions( fontSizes );
+	const options = getSelectOptions( fontSizes );
 	const rangeControlNumberId = `components-range-control__number#${ instanceId }`;
 	return (
 		<fieldset className="components-font-size-picker">
@@ -70,15 +70,18 @@ function FontSizePicker( {
 				{ __( 'Font Size' ) }
 			</legend>
 			<div className="components-font-size-picker__controls">
-				{ ( fontSizes.length > 0 ) &&
+				{ fontSizes.length > 0 && (
 					<CustomSelect
 						className={ 'components-font-size-picker__select' }
 						label={ __( 'Preset Size' ) }
-						items={ items }
-						selectedItem={ items.find( ( item ) => item.key === currentSelectValue ) || items[ 0 ] }
-						onSelectedItemChange={ onSelectChangeValue }
+						options={ options }
+						value={
+							options.find( ( option ) => option.key === currentSelectValue ) ||
+							options[ 0 ]
+						}
+						onChange={ onSelectChangeValue }
 					/>
-				}
+				) }
 				{ ( ! withSlider && ! disableCustomFontSizes ) &&
 					<div className="components-range-control__number-container">
 						<label htmlFor={ rangeControlNumberId }>{ __( 'Custom' ) }</label>

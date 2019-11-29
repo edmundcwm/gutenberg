@@ -590,10 +590,19 @@ function BlockListBlock( {
 				</Popover>
 			) }
 			{ shouldShowBreadcrumb && (
-				<BlockBreadcrumb
-					clientId={ clientId }
-					ref={ breadcrumb }
-				/>
+				<Popover
+					noArrow
+					position="top right left"
+					forcePosition
+					focusOnMount={ false }
+					anchorRef={ wrapper.current }
+					className="block-editor-block-list__block__popover"
+				>
+					<BlockBreadcrumb
+						clientId={ clientId }
+						ref={ breadcrumb }
+					/>
+				</Popover>
 			) }
 			{ ( shouldShowContextualToolbar || isForcingContextualToolbar.current ) && (
 				<Popover

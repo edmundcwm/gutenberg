@@ -1002,8 +1002,9 @@
 	z-index: z-index(".block-editor-block-list__breadcrumb");
 
 	// Position in the top left of the border.
-	left: -$block-padding - $block-left-border-width;
-	top: (($block-padding * -2) - $block-left-border-width);
+	// To do: fix magir numbers.
+	left: -$block-left-border-width + 1;
+	top: -$block-padding - 5;
 
 	.components-toolbar {
 		border: none;

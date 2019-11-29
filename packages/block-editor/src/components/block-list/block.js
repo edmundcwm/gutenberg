@@ -580,6 +580,7 @@ function BlockListBlock( {
 				<Popover
 					noArrow
 					position="middle left"
+					forcePosition
 					anchorHorizontalBuffer={ 24 }
 					focusOnMount={ false }
 					anchorRef={ wrapper.current }
@@ -598,6 +599,7 @@ function BlockListBlock( {
 				<Popover
 					noArrow
 					position="top left"
+					forcePosition
 					focusOnMount={ false }
 					anchorRef={ wrapper.current }
 					anchorVerticalBuffer={ 14 }

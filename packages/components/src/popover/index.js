@@ -202,6 +202,7 @@ const Popover = ( {
 	// of props which aren't explicitly handled by this component.
 	/* eslint-disable no-unused-vars */
 	position = 'top',
+	forcePosition,
 	range,
 	focusOnMount = 'firstElement',
 	anchorRef,
@@ -258,7 +259,7 @@ const Popover = ( {
 			yAxis,
 			contentHeight,
 			contentWidth,
-		} = computePopoverPosition( anchor, contentSize, position );
+		} = computePopoverPosition( anchor, contentSize, position, forcePosition );
 
 		// Compute the animation position
 		const yAxisMapping = {

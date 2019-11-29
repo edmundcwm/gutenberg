@@ -28,8 +28,7 @@ import {
 	withDispatch,
 	withSelect,
 } from '@wordpress/data';
-import { withViewportMatch } from '@wordpress/viewport';
-import { compose, pure, ifCondition } from '@wordpress/compose';
+import { compose, pure, ifCondition, useViewportMatch } from '@wordpress/compose';
 
 /**
  * Internal dependencies
@@ -271,6 +270,8 @@ function BlockListBlock( {
 		}
 	}, [ isSelected, isNavigationMode ] );
 
+	const isLargeViewport = useViewportMatch( 'medium' );
+
 	// Other event handlers
 
 	/**
@@ -393,16 +394,19 @@ function BlockListBlock( {
 
 	// If the block is selected and we're typing the block should not appear.
 	// Empty paragraph blocks should always show up as unselected.
+	const isFocusModeActive = isFocusMode && isLargeViewport;
+	const isTopToolbarActive = hasFixedToolbar && isLargeViewport;
 	const showInserterShortcuts = ! isNavigationMode && ( isSelected || isHovered ) && isEmptyDefaultBlock && isValid;
 	const showEmptyBlockSideInserter = ! isNavigationMode && ( isSelected || isHovered || isLast ) && isEmptyDefaultBlock && isValid;
 	const shouldAppearSelected =
-		! isFocusMode &&
+		isLargeViewport &&
+		! isFocusModeActive &&
 		! showEmptyBlockSideInserter &&
 		isSelected &&
 		! isTypingWithinBlock;
 	const shouldAppearHovered =
-		! isFocusMode &&
-		! hasFixedToolbar &&
+		! isFocusModeActive &&
+		! isTopToolbarActive &&
 		isHovered &&
 		! isEmptyDefaultBlock;
 	// We render block movers and block settings to keep them tabbale even if hidden
@@ -414,10 +418,10 @@ function BlockListBlock( {
 		! isTypingWithinBlock;
 	const shouldShowBreadcrumb =
 		( isSelected && isNavigationMode ) ||
-		( ! isNavigationMode && ! isFocusMode && isHovered && ! isEmptyDefaultBlock );
+		( ! isNavigationMode && ! isFocusModeActive && isHovered && ! isEmptyDefaultBlock );
 	const shouldShowContextualToolbar =
 		! isNavigationMode &&
-		! hasFixedToolbar &&
+		! isTopToolbarActive &&
 		! showEmptyBlockSideInserter &&
 		(
 			( isSelected && ( ! isTypingWithinBlock || isCaretWithinFormattedText ) ) ||
@@ -444,8 +448,8 @@ function BlockListBlock( {
 			'is-reusable': isReusableBlock( blockType ),
 			'is-dragging': isDragging,
 			'is-typing': isTypingWithinBlock,
-			'is-focused': isFocusMode && ( isSelected || isParentOfSelectedBlock ),
-			'is-focus-mode': isFocusMode,
+			'is-focused': isFocusModeActive && ( isSelected || isParentOfSelectedBlock ),
+			'is-focus-mode': isFocusModeActive,
 			'has-child-selected': isParentOfSelectedBlock,
 		},
 		className
@@ -563,7 +567,7 @@ function BlockListBlock( {
 					! isNavigationMode &&
 					! shouldShowContextualToolbar &&
 					isSelected &&
-					! hasFixedToolbar &&
+					! isTopToolbarActive &&
 					! isEmptyDefaultBlock && (
 						<KeyboardShortcuts
 							bindGlobal
@@ -626,7 +630,7 @@ function BlockListBlock( {
 }
 
 const applyWithSelect = withSelect(
-	( select, { clientId, rootClientId, isLargeViewport } ) => {
+	( select, { clientId, rootClientId } ) => {
 		const {
 			isBlockSelected,
 			isAncestorMultiSelected,
@@ -674,8 +678,8 @@ const applyWithSelect = withSelect(
 				name && isUnmodifiedDefaultBlock( { name, attributes } ),
 			isMovable: 'all' !== templateLock,
 			isLocked: !! templateLock,
-			isFocusMode: focusMode && isLargeViewport,
-			hasFixedToolbar: hasFixedToolbar && isLargeViewport,
+			isFocusMode: focusMode,
+			hasFixedToolbar,
 			isLast: index === blockOrder.length - 1,
 			isNavigationMode: isNavigationMode(),
 			isRTL,
@@ -792,7 +796,6 @@ const applyWithDispatch = withDispatch( ( dispatch, ownProps, { select } ) => {
 
 export default compose(
 	pure,
-	withViewportMatch( { isLargeViewport: 'medium' } ),
 	applyWithSelect,
 	applyWithDispatch,
 	// block is sometimes not mounted at the right time, causing it be undefined

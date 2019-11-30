@@ -20,6 +20,7 @@ import { compose } from '@wordpress/compose';
 import BlockAsyncModeProvider from './block-async-mode-provider';
 import BlockListBlock from './block';
 import BlockListAppender from '../block-list-appender';
+import BlockInsertionPoint from './insertion-point';
 
 /**
  * If the block count exceeds the threshold, we disable the reordering animation
@@ -245,6 +246,10 @@ class BlockList extends Component {
 							clientId={ clientId }
 							isBlockInSelection={ isBlockInSelection }
 						>
+							<BlockInsertionPoint
+								clientId={ clientId }
+								rootClientId={ rootClientId }
+							/>
 							<BlockListBlock
 								rootClientId={ rootClientId }
 								clientId={ clientId }

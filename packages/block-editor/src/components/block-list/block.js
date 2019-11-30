@@ -45,7 +45,6 @@ import BlockBreadcrumb from './breadcrumb';
 import BlockContextualToolbar from './block-contextual-toolbar';
 import BlockMultiControls from './multi-controls';
 import BlockMobileToolbar from './block-mobile-toolbar';
-import BlockInsertionPoint from './insertion-point';
 import IgnoreNestedEvents from '../ignore-nested-events';
 import InserterWithShortcuts from '../inserter-with-shortcuts';
 import Inserter from '../inserter';
@@ -560,20 +559,6 @@ function BlockListBlock( {
 					animationStyle
 			}
 		>
-			{ shouldShowInsertionPoint && (
-				<Popover
-					noArrow
-					forcePosition
-					focusOnMount={ false }
-					anchorRef={ wrapper.current }
-					className="block-editor-block-list__block__popover"
-				>
-					<BlockInsertionPoint
-						clientId={ clientId }
-						rootClientId={ rootClientId }
-					/>
-				</Popover>
-			) }
 			{ shouldRenderDropzone && <BlockDropZone
 				clientId={ clientId }
 				rootClientId={ rootClientId }

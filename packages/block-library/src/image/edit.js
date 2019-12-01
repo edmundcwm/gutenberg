@@ -65,7 +65,6 @@ import {
 import { __, sprintf } from '@wordpress/i18n';
 import { getPath } from '@wordpress/url';
 import { withViewportMatch } from '@wordpress/viewport';
-import { speak } from '@wordpress/a11y';
 
 /**
  * Internal dependencies
@@ -266,7 +265,7 @@ const ImageURLInputUI = ( {
 };
 
 export class ImageEdit extends Component {
-	constructor( { attributes } ) {
+	constructor() {
 		super( ...arguments );
 		this.updateAlt = this.updateAlt.bind( this );
 		this.updateAlignment = this.updateAlignment.bind( this );
@@ -284,14 +283,12 @@ export class ImageEdit extends Component {
 		this.onSetNewTab = this.onSetNewTab.bind( this );
 		this.onSetTitle = this.onSetTitle.bind( this );
 		this.getFilename = this.getFilename.bind( this );
-		this.toggleIsEditing = this.toggleIsEditing.bind( this );
 		this.onUploadError = this.onUploadError.bind( this );
 		this.onImageError = this.onImageError.bind( this );
 		this.getLinkDestinations = this.getLinkDestinations.bind( this );
 
 		this.state = {
 			captionFocused: false,
-			isEditing: ! attributes.url,
 		};
 	}
 
@@ -315,7 +312,6 @@ export class ImageEdit extends Component {
 					allowedTypes: ALLOWED_MEDIA_TYPES,
 					onError: ( message ) => {
 						noticeOperations.createErrorNotice( message );
-						this.setState( { isEditing: true } );
 					},
 				} );
 			}
@@ -341,9 +337,6 @@ export class ImageEdit extends Component {
 		const { noticeOperations } = this.props;
 		noticeOperations.removeAllNotices();
 		noticeOperations.createErrorNotice( message );
-		this.setState( {
-			isEditing: true,
-		} );
 	}
 
 	onSelectImage( media ) {
@@ -357,10 +350,6 @@ export class ImageEdit extends Component {
 			} );
 			return;
 		}
-
-		this.setState( {
-			isEditing: false,
-		} );
 
 		const { id, url, alt, caption, linkDestination } = this.props.attributes;
 
@@ -412,10 +401,6 @@ export class ImageEdit extends Component {
 				sizeSlug: DEFAULT_SIZE_SLUG,
 			} );
 		}
-
-		this.setState( {
-			isEditing: false,
-		} );
 	}
 
 	onImageError( url ) {
@@ -553,24 +538,12 @@ export class ImageEdit extends Component {
 		];
 	}
 
-	toggleIsEditing() {
-		this.setState( {
-			isEditing: ! this.state.isEditing,
-		} );
-		if ( this.state.isEditing ) {
-			speak( __( 'You are now viewing the image in the image block.' ) );
-		} else {
-			speak( __( 'You are now editing the image in the image block.' ) );
-		}
-	}
-
 	getImageSizeOptions() {
 		const { imageSizes } = this.props;
 		return map( imageSizes, ( { name, slug } ) => ( { value: slug, label: name } ) );
 	}
 
 	render() {
-		const { isEditing } = this.state;
 		const {
 			attributes,
 			setAttributes,
@@ -668,17 +641,16 @@ export class ImageEdit extends Component {
 				labels={ labels }
 				onSelect={ this.onSelectImage }
 				onSelectURL={ this.onSelectURL }
-				onCancel={ !! url && this.toggleIsEditing }
 				notices={ noticeUI }
 				onError={ this.onUploadError }
 				accept="image/*"
 				allowedTypes={ ALLOWED_MEDIA_TYPES }
 				value={ { id, src } }
 				mediaPreview={ mediaPreview }
-				disableMediaButtons={ ! isEditing && url }
+				disableMediaButtons={ url }
 			/>
 		);
-		if ( isEditing || ! url ) {
+		if ( ! url ) {
 			return (
 				<>
 					{ controls }

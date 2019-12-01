@@ -36,6 +36,7 @@ const MediaReplaceFlow = (
 	{
 		mediaURL,
 		allowedTypes,
+		accept,
 		onSelect,
 		onSelectURL,
 		onError,
@@ -160,7 +161,7 @@ const MediaReplaceFlow = (
 									<MediaUploadCheck>
 										<FormFileUpload
 											onChange={ uploadFiles }
-											accept={ allowedTypes }
+											accept={ accept }
 											render={ ( { openFileDialog } ) => {
 												return (
 													<MenuItem

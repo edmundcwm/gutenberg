@@ -611,6 +611,7 @@ export class ImageEdit extends Component {
 				{ url && <MediaReplaceFlow
 					mediaURL={ url }
 					allowedTypes={ ALLOWED_MEDIA_TYPES }
+					accept="image/*"
 					onSelect={ this.onSelectImage }
 					onSelectURL={ this.onSelectURL }
 					onError={ this.onUploadError }

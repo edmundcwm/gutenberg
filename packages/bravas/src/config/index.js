@@ -50,6 +50,7 @@ const recursivelyApplyCssProps = ( {
 	setState = noop,
 } ) => {
 	const keys = Object.keys( props );
+
 	keys.forEach( ( key ) => {
 		const value = props[ key ];
 		if ( typeof value === 'object' ) {
@@ -140,6 +141,9 @@ export const createConfig = ( options ) => {
 		styleSheet,
 		observable,
 		set: ( props, value ) => {
+			if ( props === undefined || value === undefined ) {
+				return;
+			}
 			const nextProps = baseSet( {}, props, value );
 			recursivelyApplyCssProps( { namespace, props: nextProps, setState } );
 		},

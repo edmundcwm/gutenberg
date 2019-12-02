@@ -6,7 +6,6 @@ import { omit } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { config } from '@wordpress/bravas';
 import { compose } from '@wordpress/compose';
 import { PanelBody, RangeControl, TextControl } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/block-editor';
@@ -14,27 +13,22 @@ import { InspectorControls } from '@wordpress/block-editor';
 /**
  * Internal dependencies
  */
+import withDefaults from './withDefaults';
 import Markup from './components/markup';
-import { generateFontSizes } from './utils';
+import useRenderTypographyStyles from './useRenderTypographyStyles';
 
 function GlobalTypographyEdit( { attributes, setAttributes, className } ) {
 	const otherAttributes = omit( attributes, [ 'align' ] );
-	const { fontSizeH1 } = attributes;
 
-	const fontSizes = {
-		H1: fontSizeH1,
-	};
-
-	const innerProps = { ...otherAttributes, fontSizes };
+	useRenderTypographyStyles( otherAttributes );
 
 	const updateAttribute = ( prop, value ) => {
-		configSet( `typography.${ prop }`, value );
 		setAttributes( { [ prop ]: value } );
 	};
 
 	return (
 		<div className={ className }>
-			<Markup { ...innerProps } />
+			<Markup { ...otherAttributes } />
 			<InspectorControls>
 				<FontSizePanel
 					{ ...otherAttributes }
@@ -54,34 +48,7 @@ function FontSizePanel( {
 	typeScale,
 	updateAttribute,
 } ) {
-	const updateHeadingSizes = ( headingSizes ) => {
-		const headings = Object.keys( headingSizes );
-		const paragraphSize = headingSizes.h6;
-
-		headings.forEach( ( heading ) => {
-			const size = headingSizes[ heading ];
-			configSet(
-				`typography.fontSize${ heading.toUpperCase() }`,
-				`${ size }px`
-			);
-		} );
-
-		configSet( 'typography.fontSizeBase', `${ paragraphSize }px` );
-	};
-
 	const updateProp = ( prop ) => ( value ) => updateAttribute( prop, value );
-
-	const updateFontSize = ( value ) => {
-		updateAttribute( 'fontSizeBase', value );
-		const headingSizes = generateFontSizes( value, typeScale );
-		updateHeadingSizes( headingSizes );
-	};
-
-	const updateTypeScale = ( value ) => {
-		updateAttribute( 'typeScale', value );
-		const headingSizes = generateFontSizes( fontSizeBase, value );
-		updateHeadingSizes( headingSizes );
-	};
 
 	return (
 		<>
@@ -100,7 +67,7 @@ function FontSizePanel( {
 			<PanelBody title="Sizing">
 				<RangeControl
 					label="Font Size"
-					onChange={ updateFontSize }
+					onChange={ updateProp( 'fontSizeBase' ) }
 					value={ fontSizeBase }
 					min={ 8 }
 					max={ 30 }
@@ -108,7 +75,7 @@ function FontSizePanel( {
 				/>
 				<RangeControl
 					label="Type Scale"
-					onChange={ updateTypeScale }
+					onChange={ updateProp( 'typeScale' ) }
 					value={ typeScale }
 					min={ 1 }
 					max={ 1.65 }
@@ -138,39 +105,6 @@ function FontSizePanel( {
 			</PanelBody>
 		</>
 	);
-}
-
-function configSet( props, value ) {
-	if ( value !== undefined ) {
-		config.set( props, value );
-	}
-}
-
-function withDefaults( WrappedComponent ) {
-	return ( props ) => {
-		const { attributes, ...restProps } = props;
-
-		const defaultAttributes = {
-			fontFamilyBase:
-				'NonBreakingSpaceOverride, "Hoefler Text", Garamond, "Times New Roman", serif',
-
-			fontFamilyHeading:
-				'"Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif',
-			fontSizeBase: 16,
-			lineHeightBase: 1.5,
-			lineHeightHeading: 1.25,
-			typeScale: 1.25,
-		};
-
-		const enhancedAttributes = {
-			...defaultAttributes,
-			...attributes,
-		};
-
-		return (
-			<WrappedComponent { ...restProps } attributes={ enhancedAttributes } />
-		);
-	};
 }
 
 export default compose( [ withDefaults ] )( GlobalTypographyEdit );

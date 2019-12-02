@@ -5,7 +5,7 @@ import { config } from './config';
 import { generateFontSizes } from './utils';
 export * from './utils';
 
-const defaultConfig = {
+export const defaultConfig = {
 	color: {
 		accent: '#cd2653',
 		primary: '#000000',

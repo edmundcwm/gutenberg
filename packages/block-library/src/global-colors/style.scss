@@ -43,11 +43,13 @@
 }
 
 .wp-block-global-colors-palette__header {
+	align-items: flex-end;
 	border-radius: 4px;
-	display: block;
+	display: flex;
 	font-size: 13px;
 	margin-bottom: 8px;
-	padding: 32px 10px 10px;
+	min-height: 80px;
+	padding: 10px;
 	transition: background-color 120ms linear;
 }
 

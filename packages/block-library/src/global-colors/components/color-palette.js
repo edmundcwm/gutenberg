@@ -17,12 +17,15 @@ function ColorPaletteHeader( { color, name } ) {
 	const style = getStyles( color );
 	return (
 		<div className="wp-block-global-colors-palette__header" style={ style }>
-			<div className="wp-block-global-colors-palette__header__title">
-				{ name }
+			<div className="wp-block-global-colors-palette__header__content">
+				<div className="wp-block-global-colors-palette__header__title">
+					{ name }
+				</div>
+				<div className="wp-block-global-colors-palette__header__meta">
+					{ color }
+				</div>
 			</div>
-			<div className="wp-block-global-colors-palette__header__meta">
-				{ color }
-			</div>
+
 		</div>
 	);
 }

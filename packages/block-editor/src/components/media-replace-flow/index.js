@@ -150,44 +150,42 @@ const MediaReplaceFlow = (
 							onClose={ onClose }
 							className={ 'media-replace-flow__options' }
 						>
-							<>
-								<NavigableMenu>
-									<MenuItem
-										icon="admin-media"
-										onClick={ open }
-									>
-										{ __( 'Open Media Library' ) }
-									</MenuItem>
-									<MediaUploadCheck>
-										<FormFileUpload
-											onChange={ uploadFiles }
-											accept={ accept }
-											render={ ( { openFileDialog } ) => {
-												return (
-													<MenuItem
-														icon="upload"
-														onClick={ () => {
-															openFileDialog();
-														} }
-													>
-														{ __( 'Upload' ) }
-													</MenuItem>
-												);
-											} }
-										/>
-									</MediaUploadCheck>
-									<MenuItem
-										icon="admin-links"
-										onClick={ () => ( setShowURLInput( ! showURLInput ) ) }
-										aria-expanded={ showURLInput }
-									>
-										<div> { __( 'Insert from URL' ) } </div>
-									</MenuItem>
-								</NavigableMenu>
-								{ showURLInput && <div className="block-editor-media-flow__url-input">
-									{ urlInputUIContent }
-								</div> }
-							</>
+							<NavigableMenu>
+								<MenuItem
+									icon="admin-media"
+									onClick={ open }
+								>
+									{ __( 'Open Media Library' ) }
+								</MenuItem>
+								<MediaUploadCheck>
+									<FormFileUpload
+										onChange={ uploadFiles }
+										accept={ accept }
+										render={ ( { openFileDialog } ) => {
+											return (
+												<MenuItem
+													icon="upload"
+													onClick={ () => {
+														openFileDialog();
+													} }
+												>
+													{ __( 'Upload' ) }
+												</MenuItem>
+											);
+										} }
+									/>
+								</MediaUploadCheck>
+								<MenuItem
+									icon="admin-links"
+									onClick={ () => ( setShowURLInput( ! showURLInput ) ) }
+									aria-expanded={ showURLInput }
+								>
+									<div> { __( 'Insert from URL' ) } </div>
+								</MenuItem>
+							</NavigableMenu>
+							{ showURLInput && <div className="block-editor-media-flow__url-input">
+								{ urlInputUIContent }
+							</div> }
 						</Popover>
 					}
 				</Toolbar>

@@ -19,7 +19,7 @@ function ColorControl( { color, isOpen, onUpdateColor = noop, setState, name, sl
 	const updateColor = ( { hex } ) => onUpdateColor( { color: hex, slug } );
 
 	return (
-		<div className="wp-global-colors-color-control">
+		<div className="wp-block-global-colors-color-control">
 			<div>
 				{ isOpen && (
 					<Popover onClose={ closePopover }>
@@ -29,10 +29,12 @@ function ColorControl( { color, isOpen, onUpdateColor = noop, setState, name, sl
 				<Swatch color={ color } onClick={ openPopover } />
 			</div>
 			<div>
-				<strong>
+				<div className="wp-block-global-colors-color-control__title">
 					{ name }
-				</strong>
-				{ color }
+				</div>
+				<div className="wp-block-global-colors-color-control__meta">
+					{ color }
+				</div>
 			</div>
 		</div>
 	);

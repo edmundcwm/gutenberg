@@ -8,12 +8,18 @@ import { InspectorControls, withColorContext } from '@wordpress/block-editor';
 import { config } from '@wordpress/bravas';
 
 /**
+ * External dependencies
+ */
+import { uniqBy } from 'lodash';
+
+/**
  * Internal dependencies
  */
 import ColorControl from './components/color-control';
 import Markup from './components/markup';
 
-function GlobalColorEdit( { attributes, className, colors, setAttributes } ) {
+function GlobalColorEdit( props ) {
+	const { attributes, className, colors, setAttributes } = props;
 	const { title } = attributes;
 
 	const setColorAttribute = ( { color, slug } ) => {
@@ -26,7 +32,7 @@ function GlobalColorEdit( { attributes, className, colors, setAttributes } ) {
 				color,
 			};
 		} );
-		setAttributes( { colors: nextColors } );
+		setAttributes( { globalColors: nextColors } );
 	};
 
 	const handleOnUpdateColor = ( { color, slug } ) => {
@@ -36,7 +42,7 @@ function GlobalColorEdit( { attributes, className, colors, setAttributes } ) {
 
 	return (
 		<div className={ className } title={ title }>
-			<Markup { ...{ color: colors[ 0 ].color } } />
+			<Markup colors={ colors } />
 			<InspectorControls>
 				<PanelBody title={ __( 'Color Palette' ) }>
 					{ colors.map( ( color, index ) => (
@@ -58,4 +64,17 @@ function configSet( props, value ) {
 	}
 }
 
-export default compose( [ withInstanceId, withColorContext ] )( GlobalColorEdit );
+function mergeColorSets( a, b ) {
+	return uniqBy( [ ...b, ...a ], 'slug' );
+}
+
+function withGlobalColorOverrides( WrappedComponent ) {
+	return ( props ) => {
+		const { colors: baseColors = [], attributes: { globalColors = [] } } = props;
+		const mergedColors = mergeColorSets( baseColors, globalColors );
+
+		return <WrappedComponent { ...props } colors={ mergedColors } />;
+	};
+}
+
+export default compose( [ withInstanceId, withColorContext, withGlobalColorOverrides ] )( GlobalColorEdit );

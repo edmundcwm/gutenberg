@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { isUndefined, omit } from 'lodash';
+import { omit } from 'lodash';
 
 /**
  * WordPress dependencies
@@ -146,37 +146,25 @@ function configSet( props, value ) {
 	}
 }
 
-function valueOf( prop, fallback ) {
-	return ! isUndefined( prop ) ? prop : fallback;
-}
-
 function withDefaults( WrappedComponent ) {
 	return ( props ) => {
 		const { attributes, ...restProps } = props;
-		const {
-			fontFamilyBase,
-			fontFamilyHeading,
-			fontSizeBase,
-			lineHeightBase,
-			lineHeightHeading,
-			typeScale,
-			...otherAttributes
-		} = attributes;
+
+		const defaultAttributes = {
+			fontFamilyBase:
+				'NonBreakingSpaceOverride, "Hoefler Text", Garamond, "Times New Roman", serif',
+
+			fontFamilyHeading:
+				'"Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif',
+			fontSizeBase: 16,
+			lineHeightBase: 1.5,
+			lineHeightHeading: 1.25,
+			typeScale: 1.25,
+		};
 
 		const enhancedAttributes = {
-			...otherAttributes,
-			fontFamilyBase: valueOf(
-				fontFamilyBase,
-				'NonBreakingSpaceOverride, "Hoefler Text", Garamond, "Times New Roman", serif'
-			),
-			fontFamilyHeading: valueOf(
-				fontFamilyHeading,
-				'"Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif'
-			),
-			fontSizeBase: valueOf( fontSizeBase, 16 ),
-			lineHeightBase: valueOf( lineHeightBase, 1.5 ),
-			lineHeightHeading: valueOf( lineHeightHeading, 1.25 ),
-			typeScale: valueOf( typeScale, 1.25 ),
+			...defaultAttributes,
+			...attributes,
 		};
 
 		return (

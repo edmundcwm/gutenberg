@@ -9,19 +9,19 @@
 			"type": "string"
 		},
 		"fontSizeBase": {
-			"type": "string"
+			"type": "number"
 		},
 		"fontSizeH1": {
-			"type": "string"
+			"type": "number"
 		},
 		"typeScale": {
-			"type": "string"
+			"type": "number"
 		},
 		"lineHeight": {
-			"type": "string"
+			"type": "number"
 		},
 		"lineHeightHeading": {
-			"type": "string"
+			"type": "number"
 		}
 	}
 }

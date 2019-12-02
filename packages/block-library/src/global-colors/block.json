@@ -2,8 +2,8 @@
 	"name": "core/global-colors",
 	"category": "layout",
 	"attributes": {
-		"backgroundColor": {
-			"type": "string"
+		"globalColors": {
+			"type": "array"
 		}
 	}
 }

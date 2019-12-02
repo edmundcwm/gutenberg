@@ -1,4 +1,16 @@
-.wp-block-global-colors__palette {
+.wp-block-global-colors-grid {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -8px;
+}
+
+.wp-block-global-colors-grid__item {
+	padding: 0 8px;
+	margin-bottom: 16px;
+	width: 25%;
+}
+
+.wp-block-global-colors-palette {
 	background-color: #fff;
 	border-radius: 8px;
 	padding: 8px;
@@ -6,7 +18,7 @@
 	max-width: 240px;
 }
 
-.wp-block-global-colors__palette-item {
+.wp-block-global-colors-palette__item {
 	display: flex;
 	justify-content: space-between;
 	font-size: 13px;
@@ -30,13 +42,38 @@
 	}
 }
 
-.wp-global-colors-color-control {
+.wp-block-global-colors-palette__header {
+	border-radius: 4px;
+	display: block;
+	font-size: 13px;
+	margin-bottom: 8px;
+	padding: 32px 10px 10px;
+	transition: background-color 120ms linear;
+}
+
+.wp-block-global-colors-palette__header__title {
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 1;
+	margin-bottom: 6px;
+}
+
+.wp-block-global-colors-palette__header__meta {
+	font-size: 12px;
+	line-height: 1;
+	opacity: 0.5;
+}
+
+.wp-block-global-colors-color-control {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 8px;
 
 	& > * {
+		margin-right: 8px;
+
 		&:last-of-type {
+			margin-right: 0;
 			flex: 1;
 		}
 	}
@@ -46,8 +83,49 @@
 	}
 }
 
-.wp-global-colors-swatch {
+.wp-block-global-colors-color-control__title {
+	font-weight: bold;
+}
+
+.wp-block-global-colors-swatch {
 	border-radius: 8px;
 	width: 40px;
 	height: 40px;
+}
+
+.wp-block-global-colors-color-swatch {
+	align-items: flex-end;
+	border-radius: 8px;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;
+	display: flex;
+	height: 80px;
+	max-width: 240px;
+	padding: 16px;
+	transition: background-color 120ms linear;
+	width: 100%;
+}
+
+
+// THEME OVERRIDES. DO NOT IMPLEMENT THIS.
+.editor-styles-wrapper {
+	background: var(--bravas-color-background) !important;
+	color: var(--bravas-color-primary) !important;
+}
+
+.editor-post-title__block .editor-post-title__input {
+	color: currentColor;
+}
+
+:root .has-background-color {
+	color: var(--bravas-color-background) !important;
+}
+
+:root .has-background-background-color {
+	background: var(--bravas-color-background) !important;
+	color: var(--bravas-color-primary) !important;
+}
+
+:root .has-primary-background-color {
+	background-color: var(--bravas-color-primary) !important;
+	color: var(--bravas-color-background) !important;
 }

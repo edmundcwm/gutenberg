@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { config } from '@wordpress/bravas';
+import { config } from '@wordpress/global-block-styles/build';
 import { useEffect } from '@wordpress/element';
 
 export default function useRenderColorStyles( colors ) {

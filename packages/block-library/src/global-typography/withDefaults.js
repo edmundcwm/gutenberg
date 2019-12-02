@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { defaultConfig } from '@wordpress/bravas';
+import { defaultConfig } from '@wordpress/global-block-styles/build';
 
 const defaultAttributes = defaultConfig.typography;
 

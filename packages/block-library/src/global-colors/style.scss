@@ -110,8 +110,8 @@
 
 // THEME OVERRIDES. DO NOT IMPLEMENT THIS.
 .editor-styles-wrapper {
-	background: var(--bravas-color-background) !important;
-	color: var(--bravas-color-primary) !important;
+	background: var(--gbs-color-background) !important;
+	color: var(--gbs-color-primary) !important;
 }
 
 .editor-post-title__block .editor-post-title__input {
@@ -119,15 +119,15 @@
 }
 
 :root .has-background-color {
-	color: var(--bravas-color-background) !important;
+	color: var(--gbs-color-background) !important;
 }
 
 :root .has-background-background-color {
-	background: var(--bravas-color-background) !important;
-	color: var(--bravas-color-primary) !important;
+	background: var(--gbs-color-background) !important;
+	color: var(--gbs-color-primary) !important;
 }
 
 :root .has-primary-background-color {
-	background-color: var(--bravas-color-primary) !important;
-	color: var(--bravas-color-background) !important;
+	background-color: var(--gbs-color-primary) !important;
+	color: var(--gbs-color-background) !important;
 }

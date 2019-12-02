@@ -47,7 +47,7 @@ const enhanceConfig = ( baseConfig ) => {
 
 config.apply( enhanceConfig( defaultConfig ) );
 
-window.bravas = {
+window.globalBlockStyles = {
 	config,
 };
 

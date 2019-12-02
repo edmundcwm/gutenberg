@@ -19,7 +19,7 @@ import {
 } from '@wordpress/components';
 import { registerCoreBlocks } from '@wordpress/block-library';
 import '@wordpress/format-library';
-import '@wordpress/bravas';
+import '@wordpress/global-block-styles';
 
 /* eslint-disable no-restricted-syntax */
 import '@wordpress/components/build-style/style.css';

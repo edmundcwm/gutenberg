@@ -163,4 +163,4 @@ export const createConfig = ( options ) => {
 	};
 };
 
-export const config = createConfig( { namespace: 'bravas' } );
+export const config = createConfig( { namespace: 'global-block-styles' } );

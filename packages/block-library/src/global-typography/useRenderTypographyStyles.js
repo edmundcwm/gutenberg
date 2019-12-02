@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { config } from '@wordpress/bravas';
+import { config } from '@wordpress/global-block-styles';
 import { useEffect } from '@wordpress/element';
 
 /**

@@ -32,7 +32,7 @@ import {
 	TextareaControl,
 	TextControl,
 	ToggleControl,
-	Toolbar,
+	ToolbarGroup,
 	withNotices,
 } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
@@ -590,36 +590,47 @@ export class ImageEdit extends Component {
 					onError={ this.onUploadError }
 				/> }
 				{ url && (
-					<Toolbar>
-						<ImageURLInputUI
-							url={ href || '' }
-							onChangeUrl={ this.onSetHref }
-							mediaLinks={ this.getLinkDestinations() }
-							linkDestination={ linkDestination }
-							advancedOptions={
-								<>
-									<ToggleControl
-										label={ __( 'Open in New Tab' ) }
-										onChange={ this.onSetNewTab }
-										checked={ linkTarget === '_blank' } />
-									<TextControl
-										label={ __( 'Link Rel' ) }
-										value={ cleanRel || '' }
-										onChange={ this.onSetLinkRel }
-										onKeyPress={ stopPropagation }
-										onKeyDown={ stopPropagationRelevantKeys }
-									/>
-									<TextControl
-										label={ __( 'Link CSS Class' ) }
-										value={ linkClass || '' }
-										onKeyPress={ stopPropagation }
-										onKeyDown={ stopPropagationRelevantKeys }
-										onChange={ this.onSetLinkClass }
-									/>
-								</>
-							}
-						/>
-					</Toolbar>
+					<>
+						<ToolbarGroup>
+							<IconButton
+								className={ classnames( 'components-icon-button components-toolbar__control', { 'is-active': this.state.isEditing } ) }
+								label={ __( 'Edit image' ) }
+								aria-pressed={ this.state.isEditing }
+								onClick={ this.toggleIsEditing }
+								icon={ editImageIcon }
+							/>
+						</ToolbarGroup>
+						<ToolbarGroup>
+							<ImageURLInputUI
+								url={ href || '' }
+								onChangeUrl={ this.onSetHref }
+								mediaLinks={ this.getLinkDestinations() }
+								linkDestination={ linkDestination }
+								advancedOptions={
+									<>
+										<ToggleControl
+											label={ __( 'Open in New Tab' ) }
+											onChange={ this.onSetNewTab }
+											checked={ linkTarget === '_blank' } />
+										<TextControl
+											label={ __( 'Link Rel' ) }
+											value={ cleanRel || '' }
+											onChange={ this.onSetLinkRel }
+											onKeyPress={ stopPropagation }
+											onKeyDown={ stopPropagationRelevantKeys }
+										/>
+										<TextControl
+											label={ __( 'Link CSS Class' ) }
+											value={ linkClass || '' }
+											onKeyPress={ stopPropagation }
+											onKeyDown={ stopPropagationRelevantKeys }
+											onChange={ this.onSetLinkClass }
+										/>
+									</>
+								}
+							/>
+						</ToolbarGroup>
+					</>
 				) }
 			</BlockControls>
 		);

@@ -30,8 +30,8 @@
 	font-weight: 500;
 	border: 0;
 
-	&.is-active,
-	&.is-active:hover {
+	&.is-toggled,
+	&.is-toggled:hover {
 		color: $white;
 	}
 
@@ -53,15 +53,15 @@
 	}
 
 	&:not(:disabled) {
-		&.is-active > span,
+		&.is-toggled > span,
 		&:hover > span,
 		&:focus > span {
 			border: $border-width solid $dark-gray-500;
 		}
 	}
 
-	&.is-active > span,
-	&.is-active:hover > span {
+	&.is-toggled > span,
+	&.is-toggled:hover > span {
 		background-color: $dark-gray-500;
 		color: $white;
 	}
